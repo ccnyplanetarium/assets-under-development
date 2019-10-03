@@ -1,0 +1,48 @@
+local transforms = asset.require('../transforms')
+local assetHelper = asset.require('util/asset_helper')
+local textures = asset.require('scene/basicsystem/basic_textures').TexturesPath
+asset.request('./starS8Trail')
+
+
+local starS8 = {
+    Identifier = "starS8",
+    Parent = transforms.SagaStarCenter.Identifier,
+    Transform = {
+        Translation = {
+            Type = "KeplerTranslation",
+            Eccentricity = 0.8031,
+            SemiMajorAxis = 4.75795E11,
+            Inclination =  74.37,
+            AscendingNode = 315.43,
+            ArgumentOfPeriapsis = 346.70,
+            MeanAnomaly = 0.0,
+            Epoch = "1983 8 22 00:00:00",
+            Period = 2.92969E9;
+        }
+    },
+    Renderable = {
+        Type = "RenderableGlobe",
+        Radii = 6.957E8,
+        SegmentsPerPatch = 64,
+        PerformShading = true,
+        Layers = {
+        ColorLayers = {
+            {
+                Identifier = "Texture",
+                FilePath = textures .. "/white.png",
+                Enabled = true
+            }
+        }
+        },
+
+        },
+    Tag = { "Sga", "star" },
+    GUI = {
+        Path = "/Milky Way/SagaStar/starS4"
+    }
+}
+
+
+
+
+assetHelper.registerSceneGraphNodesAndExport(asset, { starS8 })

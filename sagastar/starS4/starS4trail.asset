@@ -1,0 +1,37 @@
+local transforms = asset.require('../transforms')
+local assetHelper = asset.require('util/asset_helper')
+local textures = asset.require('scene/basicsystem/basic_textures').TexturesPath
+
+
+
+local starS4Trail = {
+    Identifier = "starS4Trail",
+    Parent = transforms.SagaStarCenter.Identifier,
+    Renderable = {
+        Type = "RenderableTrailOrbit",
+        Translation = {
+            Type = "KeplerTranslation",
+            Eccentricity = 0.3905,
+            SemiMajorAxis = 4.19715E11,
+            Inclination = 80.33,
+            AscendingNode = 258.84,
+            ArgumentOfPeriapsis = 290.8,
+            MeanAnomaly = 0.0,
+            Epoch = "1957 5 27 00:00:00",
+            Period = 2.428E9;
+        },
+
+        Color = {0.905, 0.935, 0.935 },
+        Period = 28105,
+        Resolution = 500,
+        Tag = { "planetTrail_solarSystem", "planetTrail_terrestrial" }
+    },
+    GUI = {
+        Name = "Sga S4 Trail",
+        Path = "/Milky Way/SagaStar/starS4Trail"
+    }
+}
+
+
+
+assetHelper.registerSceneGraphNodesAndExport(asset, {starS4Trail })

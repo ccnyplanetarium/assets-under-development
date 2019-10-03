@@ -1,0 +1,10 @@
+local assetHelper = asset.require('util/asset_helper')
+local transforms = asset.require('scene/milkyway/sagastar/transforms')
+
+asset.require('scene/milkyway/sagastar/sagastar')
+asset.require('scene/milkyway/sagastar/starS1/starS1')
+asset.require('scene/milkyway/sagastar/starS2/starS2')
+asset.require('scene/milkyway/sagastar/starS4/starS4')
+asset.require('scene/milkyway/sagastar/starS8/starS8')
+
+--asset.require('scene/milkyway/trappist/marker')

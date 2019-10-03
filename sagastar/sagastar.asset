@@ -1,0 +1,44 @@
+--local transforms = asset.require('scene/solarsystem/sun/transforms')
+local assetHelper = asset.require('util/asset_helper')
+local textures = asset.require('scene/basicsystem/basic_textures').TexturesPath
+local transforms = asset.require('scene/milkyway/sagastar/transforms')
+
+
+local SagaStar = {
+    Identifier = "SagaStar",
+    Parent = transforms.SagaStarCenter.Identifier,
+    Transform = {
+        Translation = {
+            Type = "StaticTranslation",
+            Position = { 0,0,0}
+        },
+        Scale = {
+            Type = "StaticScale",
+            Scale = 1.0
+        }
+    },
+    Renderable = {
+        Type = "RenderableGlobe",
+        Radii = 84179000.7,
+        SegmentsPerPatch = 64,
+        PerformShading = false,
+        Layers = {
+        ColorLayers = {
+            {
+                Identifier = "Texture",
+                FilePath = textures .. "/black.png",
+                Enabled = true
+            }
+        }
+        },
+
+        },
+    Tag = { "planet_exoSystem", "star" },
+    GUI = {
+        Path = "/Milky Way/SagaStar/SagaStar"
+    }
+}
+
+
+
+assetHelper.registerSceneGraphNodesAndExport(asset, { SagaStar })
