@@ -1,0 +1,80 @@
+local sunTransforms = asset.require('scene/solarsystem/sun/transforms')
+local assetHelper = asset.require('util/asset_helper')
+local marsAsset = asset.require('scene/solarsystem/planets/mars/mars')
+
+
+local models = asset.syncedResource({
+    Name = "Empire State",
+    Type = "HttpSynchronization",
+    Identifier = "empire_state",
+    Version = 1
+})
+
+local LightSources = {
+    {
+        Type = "SceneGraphLightSource",
+        Identifier = "Sun",
+        Node = sunTransforms.SolarSystemBarycenter.Identifier,
+        Intensity = 1.0
+    },
+    {
+        Identifier = "Camera",
+        Type = "CameraLightSource",
+        Intensity = 0.5
+    }
+}
+
+local EmpireStateHolder = {
+    Identifier = "EmpireState",
+    Parent = marsAsset.Mars.Identifier,
+    Transform = {
+        Translation = {
+            Type = "GlobeTranslation",
+            Globe = marsAsset.Mars.Identifier,
+            Longitude = -79.4107,
+            Latitude = -7.7866,
+        }
+    },
+    GUI = {
+        Name = "Empire State",
+        Path = "/Solar System/Planets/Mars/EmpireState"
+    }
+}
+
+local EmpireStateModel = {
+    Identifier = "EmpireStateModel",
+    Parent = EmpireStateHolder.Identifier,
+    Transform = {
+          Scale = {
+            Type = "StaticScale",
+            Scale = 1
+        },
+    },
+    Renderable = {
+        Type = "RenderableModel",
+        Geometry = {
+            Type = "MultiModelGeometry",
+            GeometryFile = models .. "/rect.obj"
+        },
+        ColorTexture = models .. "/texture.jpg",
+        LightSources = LightSources,
+        PerformShading = false,
+        DisableFaceCulling = true
+    },
+    GUI = {
+        Name = "Empire State Model",
+        Path = "/Solar System/Planets/Mars/EmpireStateModel"
+    }
+}
+
+
+assetHelper.registerSceneGraphNodesAndExport(asset, {
+    EmpireStateHolder, EmpireStateModel
+})
+
+--asset.onInitialize(function ()
+    --openspace.setPropertyValueSingle(
+    --    'Scene.EmpireStateModel.Renderable.RotationVector',
+    --    { 243.243256 ,206.270264, 309.677429 }
+    --);
+--end)
