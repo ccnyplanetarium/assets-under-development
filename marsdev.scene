@@ -1,0 +1,17 @@
+asset.require('./minimal_base')
+
+local marsAsset = asset.require('scene/solarsystem/planets/mars/mars')
+asset.require('scene/solarsystem/planets/mars/empirestate')
+asset.onInitialize(function ()
+    local now = openspace.time.currentWallTime()
+    -- Jump back one day to be able to show complete weather data on Earth.
+    openspace.time.setTime(openspace.time.advancedTime(now, "-1d"))
+
+    openspace.globebrowsing.goToGeo("Mars", -13.9, -59.2, 20000000)
+
+    openspace.markInterestingNodes({ "Earth", "Mars", "Sun" })
+end)
+
+asset.onDeinitialize(function ()
+    openspace.removeInterestingNodes({ "Earth", "Mars", "Sun" })
+end)
