@@ -1,0 +1,84 @@
+local sunTransforms = asset.require('scene/solarsystem/sun/transforms')
+local assetHelper = asset.require('util/asset_helper')
+local moonAsset = asset.require('scene/solarsystem/planets/earth/moon/moon')
+
+
+local models = asset.syncedResource({
+    Name = "MiscModels",
+    Type = "HttpSynchronization",
+    Identifier = "misc_models",
+    Version = 1
+})
+
+local LightSources = {
+    {
+        Type = "SceneGraphLightSource",
+        Identifier = "Sun",
+        Node = sunTransforms.SolarSystemBarycenter.Identifier,
+        Intensity = 1.0
+    },
+    {
+        Identifier = "Camera",
+        Type = "CameraLightSource",
+        Intensity = 0.5
+    }
+}
+
+local ManhattanHolder = {
+    Identifier = "Manhattan",
+    Parent = moonAsset.Moon.Identifier,
+    Transform = {
+        Translation = {
+            Type = "GlobeTranslation",
+            Globe = moonAsset.Moon.Identifier,
+            Longitude = -20.700000,
+            Latitude = 9.880000,
+            Altitude = 350.000000,
+            UseHeightmap = true
+        }
+    },
+    GUI = {
+        Name = "Manhattan",
+        Path = "/Solar System/Planets/Earth/Moon/Manhattan"
+    }
+}
+
+local ManhattanModel = {
+    Identifier = "ManhattanModel",
+    Parent = ManhattanHolder.Identifier,
+    Transform = {
+          Scale = {
+            Type = "StaticScale",
+            Scale = 1
+        },
+    },
+    Renderable = {
+        Type = "RenderableModel",
+        Geometry = {
+            Type = "MultiModelGeometry",
+            GeometryFile = models .. "/manhattan.obj"
+        },
+        ColorTexture = models .. "/green.jpg",
+        LightSources = LightSources,
+        PerformShading = true,
+        SpecularIntensity = 0.000000,
+        DiffuseIntensity = 0.870000,
+        DisableFaceCulling = true
+    },
+    GUI = {
+        Name = "Manhattan Model",
+        Path = "/Solar System/Planets/Earth/Moon/ManhattanModel"
+    }
+}
+
+
+assetHelper.registerSceneGraphNodesAndExport(asset, {
+    ManhattanHolder, ManhattanModel
+})
+
+asset.onInitialize(function ()
+    openspace.setPropertyValueSingle(
+        'Scene.ManhattanModel.Renderable.RotationVector',
+        {283.899994,101.960000,167.089996}
+    );
+end)
