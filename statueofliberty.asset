@@ -1,0 +1,84 @@
+local sunTransforms = asset.require('scene/solarsystem/sun/transforms')
+local assetHelper = asset.require('util/asset_helper')
+local marsAsset = asset.require('scene/solarsystem/planets/mars/mars')
+
+
+local models = asset.syncedResource({
+    Name = "MiscModels",
+    Type = "HttpSynchronization",
+    Identifier = "misc_models",
+    Version = 1
+})
+
+local LightSources = {
+    {
+        Type = "SceneGraphLightSource",
+        Identifier = "Sun",
+        Node = sunTransforms.SolarSystemBarycenter.Identifier,
+        Intensity = 1.0
+    },
+    {
+        Identifier = "Camera",
+        Type = "CameraLightSource",
+        Intensity = 0.5
+    }
+}
+
+local StatueofLibertyHolder = {
+    Identifier = "StatueofLiberty",
+    Parent = marsAsset.Mars.Identifier,
+    Transform = {
+        Translation = {
+            Type = "GlobeTranslation",
+            Globe = marsAsset.Mars.Identifier,
+            Longitude = -76.940000,
+            Latitude =-6.525000,
+            Altitude = 10,
+            UseHeightmap = true
+        }
+    },
+    GUI = {
+        Name = "StatueofLiberty",
+        Path = "/Solar System/Planets/Mars/StatueofLiberty"
+    }
+}
+
+local StatueofLibertyModel = {
+    Identifier = "StatueofLibertyModel",
+    Parent = StatueofLibertyHolder.Identifier,
+    Transform = {
+          Scale = {
+            Type = "StaticScale",
+            Scale = 1
+        },
+    },
+    Renderable = {
+        Type = "RenderableModel",
+        Geometry = {
+            Type = "MultiModelGeometry",
+            GeometryFile = models .. "/StatueofLiberty.obj"
+        },
+        ColorTexture = models .. "/green.jpg",
+        LightSources = LightSources,
+        PerformShading = true,
+        SpecularIntensity = 0.000000,
+        DiffuseIntensity = 0.870000,
+        DisableFaceCulling = true
+    },
+    GUI = {
+        Name = "StatueofLiberty  Model",
+        Path = "/Solar System/Planets/Mars/StatueofLibertyModel"
+    }
+}
+
+
+assetHelper.registerSceneGraphNodesAndExport(asset, {
+    StatueofLibertyHolder, StatueofLibertyModel
+})
+
+asset.onInitialize(function ()
+    openspace.setPropertyValueSingle(
+        'Scene.StatueofLibertyModel.Renderable.RotationVector',
+        {182.650000,0.000000,14.750000}
+    );
+end)
